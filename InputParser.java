@@ -1,9 +1,9 @@
 public class InputParser {
-    protected int power = -1;
-    protected int numElements = -1;
-    protected int[] row;
-    protected String expression = "";
-    protected String base = "";
+    private int power = -1;
+    private int numElements = -1;
+    private int[] row;
+    private String expression = "";
+    private String base = "";
 
     // constructor is invalid in no string arguement is present
     public InputParser(){
@@ -24,21 +24,12 @@ public class InputParser {
 
     // Initializes previously unknown fields
     public void parseExpression(){
-        try {
+
             String[] tempHolder = expression.split("\\^");
             setPower(tempHolder[1]);
-
-            if(getPower() < 0)
-                throw new IllegalArgumentException("Exponents must be positive");
-
-            setNumElements(power+1);
-            setRow(new int[getNumElements()]);
             setBase(tempHolder[0]);
-                
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        
+            setNumElements(getPower()+1);
+            setRow(new int[getNumElements()]);
     }
 
     // All of the following methods are getters and setters
@@ -55,12 +46,30 @@ public class InputParser {
         return power;
     }
     public void setPower(int power) {
-        this.power = power;
+        try {
+            this.power = power;
+            if(getPower() < 0){
+                throw new IllegalArgumentException("Error: Exponents must be positive");
+            }
+        } 
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
     public void setPower(String power) {
-        this.power = Integer.parseInt(power);
-    }
+        try {
+            this.power = Integer.parseInt(power);
 
+            if(getPower() < 0){
+                throw new IllegalArgumentException("Error: Exponents must be positive");
+            }
+        } 
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
+    }
+    
     //numElements
     public int getNumElements() {
         return numElements;
